@@ -1,9 +1,10 @@
 require './player.rb'
 require './computer.rb'
 require './display.rb'
-require '../5desk.txt'
+
 
 class Game
+    attr_accessor :player, :computer
     include Display
     def initialize
         @player = Player.new
@@ -35,5 +36,19 @@ class Game
         elsif choice == 'n'
             new_game
         end
+    end
+
+    def comp_pick_word
+        dictionary = File.read("../5desk.txt").split
+        word = ''
+        until word.length >= 5 && word.length <= 7
+            word = dictionary.sample().downcase
+        end
+        @computer.word = word
+        
+    end
     
 end
+test = Game.new
+test.comp_pick_word
+p test
