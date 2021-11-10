@@ -24,6 +24,11 @@ class Game
                
     end
 
+    def new_game
+        comp_pick_word
+        @computer.hidden_word = Array.new(@computer.word.length) {|i| i = "_"}
+    end
+
     def game_select
         puts select_msg
         choice = gets.chomp.downcase
@@ -44,11 +49,29 @@ class Game
         until word.length >= 5 && word.length <= 7
             word = dictionary.sample().downcase
         end
-        @computer.word = word
+        @computer.word = word.split('')
         
+    end
+
+    def gameplay
+        while @player.win_status == nil && @computer.attemptleft != 0
+            puts "Please select a letter"
+            @player.letter = gets.chomp
+            while @computer.guesses.include?(@player.letter)
+                puts "You have already guessed #{@player.letter}"
+                @player.letter = gets.chomp
+            end
+            update_hidden_word(@player.letter)
+            show_guess
+            if @computer.hidden_word == @computer.word
+                @player.win_status = "Y"
+            end 
+
+            @computer.attemptleft -= 1
+        end
     end
     
 end
 test = Game.new
-test.comp_pick_word
+test.new_game
 p test

@@ -19,7 +19,7 @@ module Display
         HEREDOC
     end
 
-    def show_guess(computerguesses, computerhidden_word, playerletter, attemptleft)
+    def show_guess
         puts "Letter guessed #{@player.letter}. #{@computer.hidden_word} Previous letters#{@computer.guesses} Chances: #{@attemptleft}"
     end
 end
