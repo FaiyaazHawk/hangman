@@ -1,7 +1,7 @@
 require './player.rb'
 require './computer.rb'
 require './display.rb'
-
+require 'json'
 
 class Game
     attr_accessor :player, :computer
@@ -55,11 +55,14 @@ class Game
 
     def gameplay
         while @player.win_status == nil && @computer.attemptleft != 0
-            puts "Please select a letter"
+            puts "Please select a letter or enter 'save' to save the game"
             @player.letter = gets.chomp
             while @computer.guesses.include?(@player.letter)
                 puts "You have already guessed #{@player.letter} Please select another letter"
                 @player.letter = gets.chomp
+            end
+            if @player.letter == "save"
+                save_game
             end
             update_hidden_word(@player.letter)
 
@@ -90,7 +93,42 @@ class Game
             puts "Awww, You got hanged. The word was #{@computer.word.join}"
         end
     end
-    
+
+    def save_game
+        File.open('saved_game.json', 'w') do |file|
+            file.puts(game_to_json)
+    end
+
+    def game_to_json
+        JSON.dump({
+            word: @computer.word,
+            hidden_word: @computer.hidden_word,
+            guesses: @computer.guesses,
+            attemptleft: @computer.attemptleft
+        })
+        
+    end
+
+    def game_from_json(saved_game)
+        data = JSON.parse(File.read(saved_game))
+        @computer = Computer.new(
+            data['word'],
+            data['hiddenword'],
+            data['guesses'],
+            data['attemptleft']
+        )
+    end
+
+    def load_game
+        return unless File.exist?(saved_game.json)
+
+        File.open('saved_game.json', 'r') do |file|
+            game_from_json(file)
+        end
+        File.delete('saved_game.json')    
+        end
+    end
+   
 end
 test = Game.new
 test.play_game

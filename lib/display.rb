@@ -15,7 +15,7 @@ module Display
             The player will have 10 chances incase of an incorrect guess.
             With each correct guess, the correct letter will be displayed
             EX: _ _ _ _ (Ruby). If the guess is 'b', it will update to show _ _ b _
-            At any point, instead of a guess, if the player types in "save", the game will be saved for later resuming.
+            At any point, instead of a guess, if the player types in "save", the game will be saved for later play.
         HEREDOC
     end
 
