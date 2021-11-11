@@ -4,6 +4,6 @@ class Computer
         @word = nil
         @hidden_word = nil
         @guesses = []
-        @attemptleft = 6
+        @attemptleft = 11
     end
 end

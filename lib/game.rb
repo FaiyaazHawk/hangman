@@ -58,20 +58,39 @@ class Game
             puts "Please select a letter"
             @player.letter = gets.chomp
             while @computer.guesses.include?(@player.letter)
-                puts "You have already guessed #{@player.letter}"
+                puts "You have already guessed #{@player.letter} Please select another letter"
                 @player.letter = gets.chomp
             end
             update_hidden_word(@player.letter)
+
             show_guess
             if @computer.hidden_word == @computer.word
                 @player.win_status = "Y"
             end 
+            @computer.guesses << @player.letter
+            
+        end
+    end
 
+    def update_hidden_word(playerletter)
+        matched_index = @computer.word.each_index.select {|index| @computer.word[index] == playerletter} #finds the index of letters that match playerletter in word
+        if matched_index.length > 0 #if there are matches, update hidden word to show the letters
+            matched_index.each do |index|
+                @computer.hidden_word[index] = playerletter
+            end
+        else
             @computer.attemptleft -= 1
+        end
+    end
+
+    def conclusion
+        if @player.win_status == "Y"
+            puts "Congrats!!! You guessed the word #{@computer.word.join}"
+        else
+            puts "Awww, You got hanged. The word was #{@computer.word.join}"
         end
     end
     
 end
 test = Game.new
-test.new_game
-p test
+test.play_game
