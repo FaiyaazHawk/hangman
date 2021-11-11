@@ -5,7 +5,7 @@ module Display
     end
 
     def select_msg
-        puts "Would you like to play a new game or load a previous game /nFor new game, enter 'N'. For Load, enter 'L'"
+        puts "Would you like to play a new game or load a previous game \nFor new game, enter 'N'. For Load, enter 'L'"
     end
 
     def rules

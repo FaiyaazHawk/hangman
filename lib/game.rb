@@ -38,6 +38,7 @@ class Game
         end
         if choice == 'l'
             load_game
+            show_guess
         elsif choice == 'n'
             new_game
         end
@@ -125,12 +126,17 @@ class Game
         File.open('saved_game.json', 'r') do |file|
             game_from_json(file)
             end
-        rescue
+        rescue 
             puts "No previous saved game"
         end
-        File.delete('saved_game.json') 
-        puts "Resuming saved game.../n/n"
-        show_guess   
+        begin
+        File.delete('saved_game.json')
+        rescue
+            puts "no file to delete"
+            new_game
+        end 
+        
+          
     end
    
 end
