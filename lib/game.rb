@@ -113,7 +113,7 @@ class Game
         data = JSON.parse(File.read(saved_game))
         @computer = Computer.new(
             data['word'],
-            data['hiddenword'],
+            data['hidden_word'],
             data['guesses'],
             data['attemptleft']
         )
