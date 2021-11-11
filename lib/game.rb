@@ -55,7 +55,7 @@ class Game
 
     def gameplay
         while @player.win_status == nil && @computer.attemptleft != 0
-            puts "Please select a letter or enter 'save' to save the game"
+            puts "Please select a letter or enter 'save' to save the game and exit"
             @player.letter = gets.chomp
             while @computer.guesses.include?(@player.letter)
                 puts "You have already guessed #{@player.letter} Please select another letter"
@@ -94,9 +94,11 @@ class Game
         end
     end
 
-    def save_game
+    def save_game #game saves and quits
         File.open('saved_game.json', 'w') do |file|
             file.puts(game_to_json)
+        end
+        exit
     end
 
     def game_to_json
@@ -111,22 +113,24 @@ class Game
 
     def game_from_json(saved_game)
         data = JSON.parse(File.read(saved_game))
-        @computer = Computer.new(
-            data['word'],
-            data['hidden_word'],
-            data['guesses'],
-            data['attemptleft']
-        )
+        Computer.new
+        @computer.word = data['word']
+        @computer.hidden_word = data['hidden_word']
+        @computer.guesses = data['guesses']
+        @computer.attemptleft = data['attemptleft']
     end
 
     def load_game
-        return unless File.exist?(saved_game.json)
-
+        begin
         File.open('saved_game.json', 'r') do |file|
             game_from_json(file)
+            end
+        rescue
+            puts "No previous saved game"
         end
-        File.delete('saved_game.json')    
-        end
+        File.delete('saved_game.json') 
+        puts "Resuming saved game.../n/n"
+        show_guess   
     end
    
 end

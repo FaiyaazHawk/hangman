@@ -1,6 +1,6 @@
 class Computer
     attr_accessor :word, :hidden_word, :guesses, :attemptleft
-    def initialize
+    def initialize()
         @word = nil
         @hidden_word = nil
         @guesses = []
